@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 (2025-10-17)
+
+
+### Features
+
+* add initial files ([#1](https://github.com/CloudNationHQ/terraform-azure-ci/issues/1)) ([7c8de55](https://github.com/CloudNationHQ/terraform-azure-ci/commit/7c8de55d8353d38e4f65c16c05ec1a9b7dfd059a))
+
 ## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-pe/compare/v2.0.0...v2.1.0) (2025-08-13)
 
 
