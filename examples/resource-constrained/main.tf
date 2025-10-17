@@ -18,7 +18,8 @@ module "rg" {
 }
 
 module "container_instance" {
-  source = "../.."
+  source  = "cloudnationhq/ci/azure"
+  version = "~> 1.0"
 
   instance = {
     name                = module.naming.container_group.name

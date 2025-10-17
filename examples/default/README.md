@@ -1,1 +1,1 @@
-This example illustrates the default setup, in its simplest form.
+This example demonstrates a basic single container deployment with public DNS.
