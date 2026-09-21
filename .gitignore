@@ -38,3 +38,4 @@ terraform.rc
 
 # ignore JSON files
 *.json
+.terraform.lock.hcl

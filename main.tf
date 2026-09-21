@@ -1,36 +1,34 @@
 # container instances
-resource "azurerm_container_group" "instance" {
-
+resource "azurerm_container_group" "this" {
   resource_group_name = coalesce(
-    lookup(
-      var.instance, "resource_group_name", null
-    ), var.resource_group_name
+    var.container_group.resource_group_name,
+    var.resource_group_name
   )
 
   location = coalesce(
-    lookup(var.instance, "location", null
-    ), var.location
+    var.container_group.location,
+    var.location
   )
 
-  name                                = var.instance.name
-  ip_address_type                     = var.instance.ip_address_type
-  dns_name_label                      = var.instance.dns_name_label
-  restart_policy                      = var.instance.restart_policy
-  os_type                             = var.instance.os_type
-  sku                                 = var.instance.sku
-  key_vault_key_id                    = var.instance.key_vault_key_id
-  dns_name_label_reuse_policy         = var.instance.dns_name_label_reuse_policy
-  key_vault_user_assigned_identity_id = var.instance.key_vault_user_assigned_identity_id
-  subnet_ids                          = var.instance.subnet_ids
-  priority                            = var.instance.priority
-  zones                               = var.instance.zones
+  name                                = var.container_group.name
+  ip_address_type                     = var.container_group.ip_address_type
+  dns_name_label                      = var.container_group.dns_name_label
+  restart_policy                      = var.container_group.restart_policy
+  os_type                             = var.container_group.os_type
+  sku                                 = var.container_group.sku
+  key_vault_key_id                    = var.container_group.key_vault_key_id
+  dns_name_label_reuse_policy         = var.container_group.dns_name_label_reuse_policy
+  key_vault_user_assigned_identity_id = var.container_group.key_vault_user_assigned_identity_id
+  subnet_ids                          = var.container_group.subnet_ids
+  priority                            = var.container_group.priority
+  zones                               = var.container_group.zones
 
   tags = coalesce(
-    var.instance.tags, var.tags
+    var.container_group.tags, var.tags
   )
 
   dynamic "exposed_port" {
-    for_each = var.instance.exposed_port
+    for_each = var.container_group.exposed_port
 
     content {
       port     = exposed_port.value.port
@@ -39,7 +37,7 @@ resource "azurerm_container_group" "instance" {
   }
 
   dynamic "image_registry_credential" {
-    for_each = var.instance.image_registry_credential
+    for_each = var.container_group.image_registry_credential
 
     content {
       username                  = image_registry_credential.value.username
@@ -50,7 +48,7 @@ resource "azurerm_container_group" "instance" {
   }
 
   dynamic "identity" {
-    for_each = var.instance.identity != null ? [var.instance.identity] : []
+    for_each = var.container_group.identity != null ? { "this" = var.container_group.identity } : {}
 
     content {
       type         = identity.value.type
@@ -59,7 +57,7 @@ resource "azurerm_container_group" "instance" {
   }
 
   dynamic "dns_config" {
-    for_each = var.instance.dns_config != null ? [var.instance.dns_config] : []
+    for_each = var.container_group.dns_config != null ? { "this" = var.container_group.dns_config } : {}
 
     content {
       nameservers    = dns_config.value.nameservers
@@ -69,7 +67,7 @@ resource "azurerm_container_group" "instance" {
   }
 
   dynamic "diagnostics" {
-    for_each = var.instance.diagnostics != null ? [var.instance.diagnostics] : []
+    for_each = var.container_group.diagnostics != null ? { "this" = var.container_group.diagnostics } : {}
 
     content {
       log_analytics {
@@ -82,7 +80,7 @@ resource "azurerm_container_group" "instance" {
   }
 
   dynamic "init_container" {
-    for_each = var.instance.init_container
+    for_each = var.container_group.init_container
 
     content {
       name                         = init_container.value.name
@@ -113,7 +111,7 @@ resource "azurerm_container_group" "instance" {
           secret               = volume.value.secret
 
           dynamic "git_repo" {
-            for_each = volume.value.git_repo != null ? [volume.value.git_repo] : []
+            for_each = volume.value.git_repo != null ? { "this" = volume.value.git_repo } : {}
 
             content {
               url       = git_repo.value.url
@@ -127,7 +125,7 @@ resource "azurerm_container_group" "instance" {
   }
 
   dynamic "container" {
-    for_each = var.instance.container
+    for_each = var.container_group.container
 
     content {
       name                         = container.value.name
@@ -171,7 +169,7 @@ resource "azurerm_container_group" "instance" {
           secret               = volume.value.secret
 
           dynamic "git_repo" {
-            for_each = volume.value.git_repo != null ? [volume.value.git_repo] : []
+            for_each = volume.value.git_repo != null ? { "this" = volume.value.git_repo } : {}
 
             content {
               url       = git_repo.value.url
@@ -183,7 +181,7 @@ resource "azurerm_container_group" "instance" {
       }
 
       dynamic "liveness_probe" {
-        for_each = container.value.liveness_probe != null ? [container.value.liveness_probe] : []
+        for_each = container.value.liveness_probe != null ? { "this" = container.value.liveness_probe } : {}
 
         content {
           initial_delay_seconds = liveness_probe.value.initial_delay_seconds
@@ -194,7 +192,7 @@ resource "azurerm_container_group" "instance" {
           exec                  = liveness_probe.value.exec
 
           dynamic "http_get" {
-            for_each = liveness_probe.value.http_get != null ? [liveness_probe.value.http_get] : []
+            for_each = liveness_probe.value.http_get != null ? { "this" = liveness_probe.value.http_get } : {}
 
             content {
               path         = http_get.value.path
@@ -207,7 +205,7 @@ resource "azurerm_container_group" "instance" {
       }
 
       dynamic "readiness_probe" {
-        for_each = container.value.readiness_probe != null ? [container.value.readiness_probe] : []
+        for_each = container.value.readiness_probe != null ? { "this" = container.value.readiness_probe } : {}
 
         content {
           initial_delay_seconds = readiness_probe.value.initial_delay_seconds
@@ -218,7 +216,7 @@ resource "azurerm_container_group" "instance" {
           exec                  = readiness_probe.value.exec
 
           dynamic "http_get" {
-            for_each = readiness_probe.value.http_get != null ? [readiness_probe.value.http_get] : []
+            for_each = readiness_probe.value.http_get != null ? { "this" = readiness_probe.value.http_get } : {}
 
             content {
               path         = http_get.value.path

@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,9 +19,8 @@ module "rg" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
-  naming = local.naming
 
   vault = {
     name                = module.naming.key_vault.name_unique
@@ -61,9 +60,9 @@ module "kv" {
 
 module "container_instance" {
   source  = "cloudnationhq/ci/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
-  instance = {
+  container_group = {
     name                = module.naming.container_group.name
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
