@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-ci/compare/v1.0.0...v2.0.0) (2026-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* this change causes recreates
+
+### Features
+
+* azurerm provider 5 upgrade ([#9](https://github.com/CloudNationHQ/terraform-azure-ci/issues/9)) ([201c6af](https://github.com/CloudNationHQ/terraform-azure-ci/commit/201c6af63dc7ce386f5649ca14483a8349648e52))
+
 ## 1.0.0 (2025-10-17)
 
 
