@@ -1,16 +1,16 @@
-variable "instance" {
+variable "container_group" {
   description = "Contains all container instance configuration"
   type = object({
     name                                = string
     resource_group_name                 = optional(string)
     location                            = optional(string)
-    ip_address_type                     = optional(string, "Public")
+    ip_address_type                     = optional(string)
     dns_name_label                      = optional(string)
-    restart_policy                      = optional(string, "Always")
+    restart_policy                      = optional(string)
     os_type                             = optional(string, "Linux")
-    sku                                 = optional(string, "Standard")
+    sku                                 = optional(string)
     key_vault_key_id                    = optional(string)
-    dns_name_label_reuse_policy         = optional(string, "Unsecure")
+    dns_name_label_reuse_policy         = optional(string)
     key_vault_user_assigned_identity_id = optional(string)
     subnet_ids                          = optional(list(string))
     priority                            = optional(string)
@@ -18,7 +18,7 @@ variable "instance" {
     tags                                = optional(map(string))
     exposed_port = optional(map(object({
       port     = number
-      protocol = optional(string, "TCP")
+      protocol = optional(string)
     })), {})
     image_registry_credential = optional(map(object({
       username                  = optional(string)
@@ -56,7 +56,7 @@ variable "instance" {
         name                 = string
         mount_path           = string
         empty_dir            = optional(bool)
-        read_only            = optional(bool, false)
+        read_only            = optional(bool)
         share_name           = optional(string)
         storage_account_name = optional(string)
         storage_account_key  = optional(string)
@@ -80,7 +80,7 @@ variable "instance" {
       secure_environment_variables = optional(map(string), {})
       ports = optional(map(object({
         port     = number
-        protocol = optional(string, "TCP")
+        protocol = optional(string)
       })), {})
       security = optional(map(object({
         privilege_enabled = bool
@@ -89,7 +89,7 @@ variable "instance" {
         name                 = string
         mount_path           = string
         empty_dir            = optional(bool)
-        read_only            = optional(bool, false)
+        read_only            = optional(bool)
         share_name           = optional(string)
         storage_account_name = optional(string)
         storage_account_key  = optional(string)
@@ -132,13 +132,13 @@ variable "instance" {
   })
 
   validation {
-    condition     = var.instance.location != null || var.location != null
-    error_message = "Location must be provided either in the instance object or as a separate variable."
+    condition     = var.container_group.location != null || var.location != null
+    error_message = "Location must be provided either in the container_group object or as a separate variable."
   }
 
   validation {
-    condition     = var.instance.resource_group_name != null || var.resource_group_name != null
-    error_message = "Resource group name must be provided either in the instance object or as a separate variable."
+    condition     = var.container_group.resource_group_name != null || var.resource_group_name != null
+    error_message = "Resource group name must be provided either in the container_group object or as a separate variable."
   }
 }
 

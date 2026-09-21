@@ -29,25 +29,25 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [azurerm_container_group.instance](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_group) (resource)
+- [azurerm_container_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_group) (resource)
 
 ## Required Inputs
 
 The following input variables are required:
 
-### <a name="input_instance"></a> [instance](#input\_instance)
+### <a name="input_container_group"></a> [container\_group](#input\_container\_group)
 
 Description: Contains all container instance configuration
 
@@ -58,22 +58,22 @@ object({
     name                                = string
     resource_group_name                 = optional(string)
     location                            = optional(string)
-    ip_address_type                     = optional(string, "Public")
+    ip_address_type                     = optional(string)
     dns_name_label                      = optional(string)
-    restart_policy                      = optional(string, "Always")
+    restart_policy                      = optional(string)
     os_type                             = optional(string, "Linux")
-    sku                                 = optional(string, "Standard")
+    sku                                 = optional(string)
     key_vault_key_id                    = optional(string)
-    dns_name_label_reuse_policy         = optional(string, "Unsecure")
+    dns_name_label_reuse_policy         = optional(string)
     key_vault_user_assigned_identity_id = optional(string)
     subnet_ids                          = optional(list(string))
     priority                            = optional(string)
     zones                               = optional(list(string))
     tags                                = optional(map(string))
-    exposed_port = optional(set(object({
+    exposed_port = optional(map(object({
       port     = number
-      protocol = optional(string, "TCP")
-    })), [])
+      protocol = optional(string)
+    })), {})
     image_registry_credential = optional(map(object({
       username                  = optional(string)
       password                  = optional(string)
@@ -103,11 +103,14 @@ object({
       environment_variables        = optional(map(string), {})
       secure_environment_variables = optional(map(string), {})
       commands                     = optional(list(string))
+      security = optional(map(object({
+        privilege_enabled = bool
+      })), {})
       volume = optional(map(object({
         name                 = string
         mount_path           = string
         empty_dir            = optional(bool)
-        read_only            = optional(bool, false)
+        read_only            = optional(bool)
         share_name           = optional(string)
         storage_account_name = optional(string)
         storage_account_key  = optional(string)
@@ -131,7 +134,7 @@ object({
       secure_environment_variables = optional(map(string), {})
       ports = optional(map(object({
         port     = number
-        protocol = optional(string, "TCP")
+        protocol = optional(string)
       })), {})
       security = optional(map(object({
         privilege_enabled = bool
@@ -140,7 +143,7 @@ object({
         name                 = string
         mount_path           = string
         empty_dir            = optional(bool)
-        read_only            = optional(bool, false)
+        read_only            = optional(bool)
         share_name           = optional(string)
         storage_account_name = optional(string)
         storage_account_key  = optional(string)
@@ -215,7 +218,7 @@ Default: `{}`
 
 The following outputs are exported:
 
-### <a name="output_instance"></a> [instance](#output\_instance)
+### <a name="output_container_group"></a> [container\_group](#output\_container\_group)
 
 Description: Contains all container group configuration
 <!-- END_TF_DOCS -->
@@ -240,11 +243,7 @@ To update the module's documentation run `make doc`
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
 
-For more information, please see our contribution [guidelines](./CONTRIBUTING.md). <br><br>
-
-<a href="https://github.com/cloudnationhq/terraform-azure-ci/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cloudnationhq/terraform-azure-ci" />
-</a>
+For more information, please see our contribution [guidelines](./CONTRIBUTING.md).
 
 ## License
 
@@ -254,4 +253,3 @@ MIT Licensed. See [LICENSE](./LICENSE) for full details.
 
 - [Documentation](https://learn.microsoft.com/azure/container-instances/)
 - [Rest Api](https://learn.microsoft.com/rest/api/container-instances/container-groups)
-- [Resource Manager Template Reference](https://learn.microsoft.com/azure/templates/microsoft.containerinstance/containergroups)

@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,7 +19,7 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 9.0"
+  version = "~> 10.0"
 
   vnet = {
     name                = module.naming.virtual_network.name
@@ -45,9 +45,9 @@ module "network" {
 
 module "container_instance" {
   source  = "cloudnationhq/ci/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
-  instance = {
+  container_group = {
     name                = module.naming.container_group.name
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
