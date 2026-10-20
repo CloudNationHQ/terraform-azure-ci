@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-ci/compare/v2.0.0...v2.1.0) (2026-10-20)
+
+
+### Features
+
+* **deps:** bump github.com/klauspost/compress in /tests ([#11](https://github.com/CloudNationHQ/terraform-azure-ci/issues/11)) ([4b1e028](https://github.com/CloudNationHQ/terraform-azure-ci/commit/4b1e0283fc27159111c8544408b8e6f275cc5cc5))
+* **deps:** bump golang.org/x/crypto from 0.45.0 to 0.52.0 in /tests ([#13](https://github.com/CloudNationHQ/terraform-azure-ci/issues/13)) ([abf3ae2](https://github.com/CloudNationHQ/terraform-azure-ci/commit/abf3ae2a6bcd714724fafd5c677183a9151ad8dc))
+
 ## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-ci/compare/v1.0.0...v2.0.0) (2026-09-21)
 
 
